@@ -59,25 +59,49 @@ def menu():
     escolhendo = True
 
     while escolhendo:
-        tela.fill((30, 30, 30))
+        tela.fill((20, 20, 20))
+        
+        # Título
         titulo = fonte_grande.render("Xadrez vs IA", True, (255, 255, 255))
-        tela.blit(titulo, (TAMANHO_TABULEIRO // 2 - titulo.get_width() // 2, 30))
+        tela.blit(titulo, (TAMANHO_TABULEIRO // 2 - titulo.get_width() // 2, 40))
 
-        botao_brancas = pygame.Rect(150, 100, 200, 50)
-        botao_pretas = pygame.Rect(450, 100, 200, 50)
+        # Configurações de botão
+        largura_botao = 240
+        altura_botao = 60
+        espacamento = 40
+        centro_x = TAMANHO_TABULEIRO // 2
 
-        pygame.draw.rect(tela, (50, 50, 200), botao_brancas)
-        pygame.draw.rect(tela, (200, 50, 50), botao_pretas)
+        # Botões
+        botao_brancas = pygame.Rect(centro_x - largura_botao - espacamento // 2, 120, largura_botao, altura_botao)
+        botao_pretas = pygame.Rect(centro_x + espacamento // 2, 120, largura_botao, altura_botao)
 
-        texto_brancas = fonte.render("Jogar como BRANCAS", True, (255, 255, 255))
-        texto_pretas = fonte.render("Jogar como PRETAS", True, (255, 255, 255))
-        tela.blit(texto_brancas, (botao_brancas.centerx - texto_brancas.get_width() // 2, botao_brancas.centery - 12))
-        tela.blit(texto_pretas, (botao_pretas.centerx - texto_pretas.get_width() // 2, botao_pretas.centery - 12))
+        mouse_pos = pygame.mouse.get_pos()
 
-        texto_dificuldade = fonte.render("Dificuldade: 1 - Facil | 2 - Medio | 3 - Dificil", True, (255, 255, 255))
-        tela.blit(texto_dificuldade, (TAMANHO_TABULEIRO // 2 - texto_dificuldade.get_width() // 2, 180))
+        # Desenhar botão BRANCAS com efeito hover
+        if botao_brancas.collidepoint(mouse_pos):
+            pygame.draw.rect(tela, (90, 90, 255), botao_brancas, border_radius=10)
+        else:
+            pygame.draw.rect(tela, (70, 70, 240), botao_brancas, border_radius=10)
+
+        # Desenhar botão PRETAS com efeito hover
+        if botao_pretas.collidepoint(mouse_pos):
+            pygame.draw.rect(tela, (240, 70, 70), botao_pretas, border_radius=10)
+        else:
+            pygame.draw.rect(tela, (220, 60, 60), botao_pretas, border_radius=10)
+
+        # Textos dos botões com ▶
+        texto_brancas = fonte.render("▶ Jogar como BRANCAS", True, (255, 255, 255))
+        texto_pretas = fonte.render("▶ Jogar como PRETAS", True, (255, 255, 255))
+
+        tela.blit(texto_brancas, (botao_brancas.centerx - texto_brancas.get_width() // 2, botao_brancas.centery - texto_brancas.get_height() // 2))
+        tela.blit(texto_pretas, (botao_pretas.centerx - texto_pretas.get_width() // 2, botao_pretas.centery - texto_pretas.get_height() // 2))
+
+        # Texto de dificuldade
+        texto_dificuldade = fonte.render("Dificuldade: 1 - Fácil | 2 - Médio | 3 - Difícil", True, (200, 200, 200))
+        tela.blit(texto_dificuldade, (TAMANHO_TABULEIRO // 2 - texto_dificuldade.get_width() // 2, 210))
 
         pygame.display.flip()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -101,6 +125,8 @@ def menu():
         clock.tick(30)
 
     return cor, dificuldade
+
+
 
 # --- JOGO ---
 def main():
